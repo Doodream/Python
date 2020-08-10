@@ -20,6 +20,8 @@
 # 출력 조건
 # 첫째 줄에 동빈이의 큰수의 법칙에 따라 더해진 답을 출력한다.
 
+
+
 N, M, K = map(int, input().split())
 list = list(map(int, input().split()))
 
