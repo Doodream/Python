@@ -20,27 +20,17 @@
 # 출력 조건
 # 첫째 줄에 동빈이의 큰수의 법칙에 따라 더해진 답을 출력한다.
 
-
-
 N, M, K = map(int, input().split())
 list = list(map(int, input().split()))
+list.sort(reverse = True)
+maximum = list[0]
+maximum_2 = list[1]
 
-# 가장 큰 아이디어는 가장 큰 수를 K번 더하고 두번쨰로 큰수를 더해서 M번 더하는 것을 반복하는 것이다.
-maximum = max(list)
-list.remove(maximum)
-maximum_2 = max(list)
+# 리스트의 갯수가 작아서 위의 방법대로 풀리지만 엄창나게 많은 수의 원소를 가지는 리스트는 시간초과가 뜬다.
+# 반복되는 수열을 생각해보자 6665 6665 반복되는데 6이 K만큼 반복되고 5가 나오는 것이 M번째 까지 반복된다.
 
-answer = 0
-while True:
-    for i in range(K):
-        answer += maximum
-        M -= 1
-        if M == 0:
-            break
-
-    answer += maximum_2
-    M -= 1
-    if M == 0:
-        break
+maximum_total = maximum * (K * (M // (K + 1))) + M % (K + 1)
+maximum_2_total = maximum_2 * (M // (K + 1))
+answer = maximum_total + maximum_2_total
 
 print(answer)
