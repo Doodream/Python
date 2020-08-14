@@ -15,27 +15,24 @@
 
 N = int(input())
 meetings = []
-times = list(range(24))
 answer = 0
+end_time = 0
 
 for _ in range(N):
     meetings.append(list(map(int, input().split())))
+# 시작시간으로 정렬 하면 가장 빠른 회의 시작시간이 맨앞에 오고
+# 후에 종료시간 기준으로 정렬하면 회의 시간이 짧은 회의들이 맨앞에 온다.
 
-for i in range(len(meetings)):
-    meetings[i].append(meetings[i][1] - meetings[i][0])
-
-meetings.sort(key = lambda x: x[2])
+# 시작시간 기준으로 정렬
+meetings.sort(key = lambda x: x[0])
+# 종료시간 기준으로 정렬
+meetings.sort(key = lambda x: x[1])
 
 for meet in meetings:
-    meeting_times = list(range(meet[0], meet[1]))
-    if meet[0] == meet[1]:
+    # 만약 회의시작 시간이 이전 회의 끝나는 시간과 같거나 크다면
+    if meet[0] >= end_time:
+        end_time = meet[1]
         answer += 1
-        continue
-    elif len(times) - len(meeting_times) == len(set(times) - set(meeting_times)):
-        times = set(times) - set(meeting_times)
-        times = list(times)
-        answer += 1
-        print(meeting_times)
     else:
         continue
 
