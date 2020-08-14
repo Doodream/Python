@@ -19,46 +19,28 @@
 # 출력조건
 # - 첫째 줄에 여행가 A가 최종적으로 도착할 지점의 좌표 (X, Y)를 공백으로 구분하여 출력한다.
 
-def L(location):
-    location[1] -= 1
-    return location
-
-def R(location):
-    location[1] += 1
-    return location
-
-def U(location):
-    location[0] -= 1
-    return location
-
-
-def D(location):
-    location[0] += 1
-    return location
-
 N = int(input())
-plan = list(map(str, input().split()))
-location = [1, 1]
+# 그냥 공백구분으로 문자를 받아도 알아서 리스트로 받는다. 파이썬 너무 좋다.
+# like list(map(str, input().split()))
+plan = input().split()
+
+# row, column을 1, 1로 놓고 인덱스에 맞게 L R U D를 정의한다.
+row, column = 1, 1
+d_row = [0, 0, -1, 1]
+d_column = [-1, 1, 0, 0]
+move_types = ['L', 'R', 'U', 'D']
+
 
 for i in plan:
+    n_row, n_column = 0, 0
 
-    if i == 'L':
-       location = L(location)
-       # 공간을 넘어가는 경우 원복
-       if 0 in location:
-           location = R(location)
-    elif i == 'R':
-       location = R(location)
-       if 0 in location:
-           location = L(location)
-    elif i == 'U':
-       location = U(location)
-       if 0 in location:
-           location = D(location)
-    else:
-        location = D(location)
-        if 0 in location:
-            location = U(location)
+    for j in range(len(move_types)):
+        if i == move_types[j]:
+            n_row = row + d_row[j]
+            n_column = column + d_column[j]
+    if n_row == 0 or n_column == 0 or n_row > N or n_column > N:
+        continue
+    row, column = n_row, n_column
 
-print(location)
+print(row, column)
 
