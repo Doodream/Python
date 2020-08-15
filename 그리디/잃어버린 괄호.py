@@ -20,6 +20,7 @@
 # 먼저 - 를 기준으로 배열을 나눈다. 이러한 형식으로 나뉜 원소들마다 모두 더해주고 배열을 만든다음
 # 배열 사이사이를 - 를 넣는다.
 # 모두 더해버린다.
+
 math_expression = input()
 # -를 기준으로 나눈다.
 math_expression = math_expression.split('-')
