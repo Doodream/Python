@@ -96,9 +96,11 @@ for i in range(N):
 
 # 캐릭터는 입장하자마자 한개의 칸을 방문한다.
 step = 1
+game_map[location[0]][location[1]] = 1
 direction_count = 0
 
 while True:
+        # pre_location이 바뀔 때 location이 바뀔 때가 달라야 하므로 깊은 복사
         pre_location = copy.deepcopy(location)
         pre_location = change_direction(pre_location)
         pre_location = go_step(pre_location)
@@ -120,7 +122,7 @@ while True:
             direction_count += 1
         # 캐릭터의 사방이 바다 이거나 가본 방향인 경우
         if direction_count == 4:
-
+            direction_count = 0
             pre_location = reverse_step(location)
             # 후진 했을 때 바다라면
             if game_map[pre_location[0]][pre_location[1]] == 1:
