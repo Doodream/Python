@@ -87,6 +87,14 @@ def reverse_step(tmp):
         tmp[1] += 1
     return tmp
 
+# def print_map(map_list):
+#     for i in range(len(map_list)):
+#         for j in range(len(map_list[i])):
+#             print(map_list[i][j], end = ' ')
+#         print()
+#     print()
+
+
 N, M = map(int, input().split())
 location = list(map(int, input().split()))
 
@@ -96,40 +104,44 @@ for i in range(N):
 
 # 캐릭터는 입장하자마자 한개의 칸을 방문한다.
 step = 1
-game_map[location[0]][location[1]] = 1
+game_map[location[0]][location[1]] = 2
 direction_count = 0
 
 while True:
-        # pre_location이 바뀔 때 location이 바뀔 때가 달라야 하므로 깊은 복사
+    # print(location)
+    # pre_location이 바뀔 때 location이 바뀔 때가 달라야 하므로 깊은 복사
+    pre_location = copy.deepcopy(location)
+    pre_location = change_direction(pre_location)
+    pre_location = go_step(pre_location)
+
+    # 한번도 가보지 안은 방향이든 가본 방향이든 방향은 변함
+    # 방향 전환
+    location = change_direction(location)
+
+    # 캐릭터의 왼쪽방향이 한번도 가보지 않은 방향
+    if game_map[pre_location[0]][pre_location[1]] == 0:
+        # 한칸 이동
+        location = go_step(location)
+        step += 1
+        # 이미 가본칸은 2 로 표시
+        game_map[location[0]][location[1]] = 2
+        direction_count = 0
+        # print_map(game_map)
+    # 캐릭터의 왼쪽방향이 바다 이거나 가본 방향
+    else:
+        direction_count += 1
+    # 캐릭터의 사방이 바다 이거나 가본 방향인 경우
+    if direction_count == 4:
+        direction_count = 0
         pre_location = copy.deepcopy(location)
-        pre_location = change_direction(pre_location)
-        pre_location = go_step(pre_location)
-
-        # 한번도 가보지 안은 방향이든 가본 방향이든 방향은 변함
-        # 방향 전환
-        location = change_direction(location)
-
-        # 캐릭터의 왼쪽방향이 한번도 가보지 않은 방향
-        if game_map[pre_location[0]][pre_location[1]] == 0:
-            # 한칸 이동
-            location = go_step(location)
-            step += 1
-            # 이미 가본칸은 1로 표시 : 가본칸이나 바다인 경우나 못가는 건 똑같기 때문에
-            game_map[location[0]][location[1]] = 1
-            direction_count = 0
-        # 캐릭터의 왼쪽방향이 바다 이거나 가본 방향
+        pre_location = reverse_step(pre_location)
+        # 후진 했을 때 바다라면
+        if game_map[pre_location[0]][pre_location[1]] == 1:
+            # 움직임 끝
+            break
         else:
-            direction_count += 1
-        # 캐릭터의 사방이 바다 이거나 가본 방향인 경우
-        if direction_count == 4:
-            direction_count = 0
-            pre_location = reverse_step(location)
-            # 후진 했을 때 바다라면
-            if game_map[pre_location[0]][pre_location[1]] == 1:
-                # 움직임 끝
-                break
-            else:
-                # 후진
-                location = reverse_step(location)
+            # 후진
+            location = reverse_step(location)
+
 
 print(step)
