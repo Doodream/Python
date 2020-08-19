@@ -17,15 +17,18 @@ graph = []
 village_list = []
 for _ in range(N):
     graph.append(list(map(int, input())))
-stack = []
+# 전역변수 처리
+global village_num
+village_num = 0
 
 def dfs(x, y):
+    global village_num
     if x < 0 or x > N - 1 or y < 0 or y > N - 1:
         return False
 
     if graph[x][y] == 1:
         graph[x][y] = 0
-        stack.append(1)
+        village_num += 1
         dfs(x - 1, y)
         dfs(x + 1, y)
         dfs(x, y - 1)
@@ -36,8 +39,8 @@ def dfs(x, y):
 for i in range(N):
     for j in range(N):
         if dfs(i, j) == True:
-            village_list.append(len(stack))
-            stack = []
+            village_list.append(village_num)
+            village_num = 0
 
 print(len(village_list))
 village_list.sort()
