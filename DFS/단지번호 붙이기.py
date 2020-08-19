@@ -31,7 +31,7 @@ def dfs(x, y):
     if graph[x][y] == 1:
         graph[x][y] = 0
         village_num += 1
-        # 상하좌우 붙어있어야 연결되어 있는 것이므로
+        # 상하좌우 모두 방문해야 되므로
         dfs(x - 1, y)
         dfs(x + 1, y)
         dfs(x, y - 1)
