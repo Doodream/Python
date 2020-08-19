@@ -22,18 +22,23 @@ global village_num
 village_num = 0
 
 def dfs(x, y):
+    # 함수 내에서도 전역변수 처리
     global village_num
+    # 맵사이즈를 넘어간다면 바로 종료(재귀 종료 조건)
     if x < 0 or x > N - 1 or y < 0 or y > N - 1:
         return False
-
+    # 맵이 주택단지라면
     if graph[x][y] == 1:
         graph[x][y] = 0
         village_num += 1
+        # 상하좌우 붙어있어야 연결되어 있는 것이므로
         dfs(x - 1, y)
         dfs(x + 1, y)
         dfs(x, y - 1)
         dfs(x, y + 1)
+        # 모두 연결되어 있다면 (재귀 종료 조건)
         return True
+    #  맵이 주택단지가 아니라면 종료(재귀 종료 조건)
     return False
 
 for i in range(N):
