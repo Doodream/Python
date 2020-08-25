@@ -23,14 +23,18 @@
 #
 # 출력
 # 각 테스트 케이스에 대해 필요한 최소의 배추흰지렁이 마리 수를 출력한다.
+
+# 재귀 호출함수 제한을 늘리자 기본 파이썬 모듈에서는 1000이므로.
 import sys
 sys.setrecursionlimit(100000)
 
 
 def dfs(x, y):
 
+    # x와 y가 행렬기준과 다르다.
     if x < 0 or x > M - 1 or y < 0 or y > N - 1:
         return False
+    # 방문하지 않았다면
     if graph[y][x] == 1:
         graph[y][x] = 0
         # print_graph()
@@ -41,7 +45,7 @@ def dfs(x, y):
         return True
     return False
 
-
+# 그래프 확인 함수
 def print_graph():
     for k in range(len(graph)):
         print(graph[k])
@@ -57,11 +61,13 @@ for _ in range(T):
 
     for i in range(K):
         ver_x, ver_y = map(int, input().split())
+        # 문제 좌표가 축이 다르다.
         graph[ver_y][ver_x] = 1
     # print_graph()
 
     for i in range(N):
         for j in range(M):
+            # 축이 다르므로 j와 i를 다르게 집어 넣는다.
             if dfs(j, i):
                 answer += 1
     print(answer)
