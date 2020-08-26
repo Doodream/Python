@@ -24,72 +24,46 @@
 # 여러분은 토마토가 모두 익을 때까지의 최소 날짜를 출력해야 한다.
 # 만약, 저장될 때부터 모든 토마토가 익어있는 상태이면 0을 출력해야 하고,
 # 토마토가 모두 익지는 못하는 상황이면 -1을 출력해야 한다.
-from collections import deque
+
+from _collections import deque
 
 M, N = map(int, input().split())
 graph = []
-# 그래프의 익은 토마토 위치 딸 리스트
-ripe_tomatos = []
-# 인접 노드 방향
+ripe = []
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
-# 안익은 토마토 갯수
-underripe_tomatos = 0
-# bfs이후 안익은 토마토 갯수
-after_bfs_tomatos = 0
-answer = 0
-
 for i in range(N):
     graph.append(list(map(int, input().split())))
-
-# 익은 토마토 위치 따서 리스트에 넣기
-for i in range(N):
     for j in range(M):
         if graph[i][j] == 1:
-            ripe_tomatos.append([i, j])
+            ripe.append((i, j))
 
-# 이문제는 queue를 이용하여 처음에 여러 노드를 queue에 집에 넣고 시작해야 되기 때문에
-# 탐색시 queue를 이용하는 bfs를 이용한다.
-
-def bfs(tomatos):
+def bfs(dir):
+    days = 0
     queue = deque()
-    # 익은 토마토의 위치를 큐에 넣기
-    for i in tomatos:
-        xx = i[0]
-        yy = i[1]
-        queue.append((xx, yy))
-    # bfs 탐색시작
+
+    for a in dir:
+        queue.append(a)
+
     while queue:
         x, y = queue.popleft()
-        for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
-            if nx < 0 or nx > N - 1 or ny < 0 or ny > M - 1:
-                continue
-            if graph[nx][ny] == 0:
+        for a in range(4):
+            nx = x + dx[a]
+            ny = y + dy[a]
+
+            if (0 <= nx < N) and (0 <= ny < M) and graph[nx][ny] == 0:
                 queue.append((nx, ny))
-                # 인접 토마토가 아직 익지 않았다면 날짜수 누적
-                graph[nx][ny] = graph[x][y] + 1
-    # 마지막으로 큐에서 나오는 토마토가 익은 날짜 수 출력
-    return graph[x][y]
+                graph[nx][ny] += graph[x][y] + 1
 
-# bfs 하기전 안익은 토마토의 갯수를 세고
-for i in range(N):
-    underripe_tomatos += graph[i].count(0)
+        days = graph[x][y] - 1
 
-# bfs 탐색
-answer = bfs(ripe_tomatos)
+    for a in graph:
+        if 0 in a:
+            return -1
 
-# bfs 한 후 안익은 토마토 갯수를 세고
-for i in range(N):
-    after_bfs_tomatos += graph[i].count(0)
+    return days
 
-# bfs 하기전 안익은 토마토의 갯수가 없다면 (모두 익었다는 뜻이므로)
-if underripe_tomatos == 0:
-    print(0)
-# bfs 한 후 안익은 토마토의 갯수가 하나라도 있다면 (토마토가 모두 익을 수 없는 환경이란 의미 이므로)
-elif after_bfs_tomatos != 0:
-    print(-1)
-# 그렇지 않은 일반적인 경우
-else:
-    # 처음부터 토마토가 익은 날짜수는 제외
-    print(answer - 1)
+print(bfs(ripe))
+
+
+
