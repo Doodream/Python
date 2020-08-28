@@ -16,37 +16,29 @@
 # 4
 from collections import deque
 
-# 그래프 자체가 0부터 100000번째 까지 존재해야하므로
-max_size = 100001
 N, K = map(int, input().split())
-visited = [0 for _ in range(max_size)]
+maxSize = 100001
+visited = [0 for _ in range(maxSize)]
 
 def bfs(node):
-    queue = deque()
-    queue.append(node)
-    # 노드를 방문하였으므로
+    q = deque()
+    q.append(node)
     visited[node] = 1
-
-    while queue:
-        current = queue.popleft()
-        # 인접노드를 설정하자
-        d = [current - 1, current + 1, current * 2]
-        # 술래를 잡는 다면
+    while q:
+        current = q.popleft()
         if current == K:
             return visited[current] - 1
-        # 인접노드를 돌자
+        d = [current - 1, current + 1, current * 2]
         for i in d:
-            next = i
-            # 다음 칸이 범위 내에 있고 방문하지 않은 칸이라면
-            if (0 <= next < max_size) and (visited[next] == 0):
-                # 해당 칸에 현재 시간을 적어놓자
-                visited[next] = visited[current] + 1
-                queue.append(next)
+            nxt = i
+            if (0 <= nxt < maxSize) and (visited[nxt] == 0):
+                visited[nxt] = visited[current] + 1
+                q.append(nxt)
 
-#
-if N > K:
-    print(N - K)
-elif N == K:
+
+if N == K:
     print(0)
+elif N > K:
+    print(N - K)
 else:
     print(bfs(N))
