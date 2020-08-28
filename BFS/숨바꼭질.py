@@ -39,7 +39,7 @@ def bfs(node):
             next = i
             # 다음 칸이 범위 내에 있고 방문하지 않은 칸이라면
             if (0 <= next < max_size) and (visited[next] == 0):
-                # 해당 칸에 방문 횟수를 적어놓자
+                # 해당 칸에 현재 시간을 적어놓자
                 visited[next] = visited[current] + 1
                 queue.append(next)
 
