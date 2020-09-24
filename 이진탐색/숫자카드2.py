@@ -44,28 +44,14 @@ def binary_search(arr, var, low, high):
     else:
         return binary_search(arr, var, low, middle - 1)
 
-    # while low <= high:
-    #     middle = (low + high) // 2
-    #     if var == arr[middle]:
-    #         print(arr[low:high+1].count(var), end = ' ')
-    #         break
-    #     elif var > arr[middle]:
-    #         low = middle + 1
-    #         if low > high:
-    #             print(0, end=' ')
-    #             break
-    #     elif var < arr[middle]:
-    #         high = middle - 1
-    #         if low > high:
-    #             print(0, end=' ')
-    #             break
-    #     else:
-    #         print(0, end=' ')
-    #         break
 
+certain_nums = {}
+for i in check_nums:
+    start = 0
+    end = len(check_nums) - 1
+    if i not in certain_nums:
+        certain_nums[i] = binary_search(check_nums, i, start, end)
 
-for i in card_nums:
-    print(binary_search(check_nums, i, 0, len(check_nums) - 1), end=' ')
-
+print(' '.join(str(certain_nums[x]) if x in certain_nums else '0' for x in card_nums))
 
 
